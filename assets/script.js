@@ -18,19 +18,39 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + "Chicago" 
 
     }).then(function(response) {
         console.log(response);
-      
         console.log(queryURL);
-        console.log(response.name);
-        console.log(moment().format('MMMM Do YYYY'));
-        console.log(response.main.temp);
+
+        var name = response.name;
+        console.log(name);
+
+        var date = moment().format('MMMM Do YYYY');
+        console.log(date);
+
+        var temp = (response.main.temp);
+        console.log(temp);
+
         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
         console.log(tempF + " F ");
-        console.log(response.main.humidity);
-        console.log(response.wind.speed);
-        console.log(response.coord.lon);
-        console.log(response.coord.lat);
-        var lng = response.coord.long;
-        var lat = response.coord.lat;
+
+        var humidity = response.main.humidity
+        console.log(humidity);
+
+        var windSpeed = response.wind.speed;
+        console.log(windSpeed);
+
+        var lng = response.coord.lon;
+        console.log(lng);
+
+        var lat = response.coord.lat;console.log(lat);
+        
+        $("#weather-info").append(name, temp, tempF, humidity, windSpeed);
+       
+
+
+        // var wellSection = $("<div>");
+        // wellSection.addClass("well");
+    
+
 
         function getUVIndex() {
             var url = "https://api.openuv.io/api/v1/uv?lat=" + lat + "&lng=" + lng;
