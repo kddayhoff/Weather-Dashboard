@@ -1,13 +1,13 @@
 $(document).ready(function() {
 
-var userInput = $("#user-input").val();
+
 
 $("#search").on("click", function(event) {
     event.preventDefault;
-
+var userInput = $("#user-input").val();
 //Userinput field is NOT working at the moment
 
-var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + "Chicago" + "&appid=b74f70f75df1dd598f40a1fa0a327642";
+var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput + "&appid=b74f70f75df1dd598f40a1fa0a327642";
 
 
     $.ajax({
@@ -19,19 +19,19 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + "Chicago" 
         console.log(queryURL);
 
         var name = response.name;
-        console.log(name);
+       
 
         var temp = (response.main.temp);
-        console.log(temp);
+       
 
         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
-        console.log(tempF + " F ");
+        
 
         var humidity = response.main.humidity
-        console.log(humidity);
+        
 
         var windSpeed = response.wind.speed;
-        console.log(windSpeed);
+       
 
         var lng = response.coord.lon;
         console.log(lng);
@@ -49,25 +49,41 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + "Chicago" 
             method: 'GET',
 
         }).then(function(request) {
-            console.log(request);
+            
             var date = request.date_iso;
-            console.log(date + "I'm Here");
+            
             var uvIndex = request.value;
-            console.log(uvIndex);
+           
 
 
-        var weatherData = $("<div>");
-        weatherData.addClass("data-item");
-        weatherData.add("li");
-        $("#weather-info").append(weatherData);
+        // var weatherData = $("<div>");
+        // weatherData.addClass("data-item");
+        // weatherData.add("li");
+        // $("#weather-info").append(weatherData);
 
-        $("#weather-info").append("<h3>" + "City: " + name + "</h3>");
-        $("#weather-info").append("<h5>" + "Current Date:" + date + "</h5>");
-        $("#weather-info").append("<h5>" + "Temperature Fahrenheit: " + tempF + "</h5>");
-        $("#weather-info").append("<h5>" + "Temperature Kelvin: " + temp + "</h5>");
-        $("#weather-info").append("<h5>" + "Humidity: " + humidity + "</h5>");
-        $("#weather-info").append("<h5>" + "Wind Speed: " + windSpeed + "</h5>");
-        $("#weather-info").append("<h5>" + "UV Index" + uvIndex + "</h5>");
+        $("#weather-info").append("<li>" + "City: " + name + "</li>");
+        $("#weather-info").append("<li>" + "Current Date:" + date + "</li>");
+        $("#weather-info").append("<li>" + "Temperature Fahrenheit: " + tempF + "</li>");
+        $("#weather-info").append("<li>" + "Temperature Kelvin: " + temp + "</li>");
+        $("#weather-info").append("<li>" + "Humidity: " + humidity + "</li>");
+        $("#weather-info").append("<li>" + "Wind Speed: " + windSpeed + "</li>");
+        $("#weather-info").append("<li>" + "UV Index" + uvIndex + "</li>");
+
+       
+
+        var fiveDayForecast = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lng + "&appid=b74f70f75df1dd598f40a1fa0a327642";
+
+        $.ajax({
+            url: fiveDayForecast,
+            method: 'GET',
+
+        }).then(function(forecast) {
+            console.log(forecast);
+           
+        })
+        console.log(fiveDayForecast);
+    
+        
 
             // for (var i = 0; i < listItems.length; i++) {
 
