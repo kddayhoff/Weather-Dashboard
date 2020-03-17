@@ -1,17 +1,15 @@
-
-var searchBtn = $("#search");
-
-
 $(document).ready(function() {
-searchBtn.on("click", function(event) {
+
+var userInput = $("#user-input").val();
+
+$("#search").on("click", function(event) {
     event.preventDefault;
-})
-//function displayWeatherInfo() {
+
 //Userinput field is NOT working at the moment
 
 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + "Chicago" + "&appid=b74f70f75df1dd598f40a1fa0a327642";
 
-//var userInput = $("#user-input").val().trim(); 
+
     $.ajax({
         url: queryURL,
         method: "GET" 
@@ -22,9 +20,6 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + "Chicago" 
 
         var name = response.name;
         console.log(name);
-
-        var date = moment().format('MMMM Do YYYY');
-        console.log(date);
 
         var temp = (response.main.temp);
         console.log(temp);
@@ -41,34 +36,60 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + "Chicago" 
         var lng = response.coord.lon;
         console.log(lng);
 
-        var lat = response.coord.lat;console.log(lat);
+        var lat = response.coord.lat;
+        console.log(lat);
         
-        $("#weather-info").append(name, temp, tempF, humidity, windSpeed);
-       
+      
+        var uvIndex = "http://api.openweathermap.org/data/2.5/uvi?&lat=" + lat + "&lon=" + lng + "&appid=b74f70f75df1dd598f40a1fa0a327642";
+
+        // var futureUVindex = "http://api.openweathermap.org/data/2.5/uvi/forecast?&appid=b74f70f75df1dd598f40a1fa0a327642&lat=" + lat + "&lon=" + lng;
+
+        $.ajax({
+            url: uvIndex,
+            method: 'GET',
+
+        }).then(function(request) {
+            console.log(request);
+            var date = request.date_iso;
+            console.log(date + "I'm Here");
+            var uvIndex = request.value;
+            console.log(uvIndex);
 
 
-        // var wellSection = $("<div>");
-        // wellSection.addClass("well");
-    
+        var weatherData = $("<div>");
+        weatherData.addClass("data-item");
+        weatherData.add("li");
+        $("#weather-info").append(weatherData);
 
+        $("#weather-info").append("<h3>" + "City: " + name + "</h3>");
+        $("#weather-info").append("<h5>" + "Current Date:" + date + "</h5>");
+        $("#weather-info").append("<h5>" + "Temperature Fahrenheit: " + tempF + "</h5>");
+        $("#weather-info").append("<h5>" + "Temperature Kelvin: " + temp + "</h5>");
+        $("#weather-info").append("<h5>" + "Humidity: " + humidity + "</h5>");
+        $("#weather-info").append("<h5>" + "Wind Speed: " + windSpeed + "</h5>");
+        $("#weather-info").append("<h5>" + "UV Index" + uvIndex + "</h5>");
 
-        function getUVIndex() {
-            var url = "https://api.openuv.io/api/v1/uv?lat=" + lat + "&lng=" + lng;
-              
-            $.ajax({
-              url: queryURL,
-              method: 'GET',
-              }).then(function(request) {
-                  console.log(request);
-                request.setRequestHeader('x-access-token', '35f2d7b929804c83614eef57af1623ed');
-              })  
+            // for (var i = 0; i < listItems.length; i++) {
 
-              console.log(url);
-            }
-        });
+            //     var listItems = [name, date, temp, tempF, humidity, windSpeed, uvIndex];
+            
+
+            // $("li").each(function() {
+            //     $("#weather-info").append(listItems);
+            // })
+            
+           //$("#weather-info").append(listItems);
+            //$("#weather-info").append(listData);
+
+        })
+     });
+  });
+})
+
  
-        });
-//}
+ 
+      
+// //}
 
 
 
