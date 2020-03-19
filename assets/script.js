@@ -1,13 +1,17 @@
 $(document).ready(function() {
 
-
-
-$("#search").on("click", function(event) {
+    // $( "#user-input" ).keydown(function( event ) {
+    //     if ( event.which == 13 ) {
+    //      event.preventDefault();
+    //     };
+$("#searchBtn").on("click", function(event) {
     event.preventDefault;
 var userInput = $("#user-input").val();
 //Userinput field is NOT working at the moment
+var apiKey = "&appid=b74f70f75df1dd598f40a1fa0a327642";
+var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput + apiKey;
 
-var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput + "&appid=b74f70f75df1dd598f40a1fa0a327642";
+
 
 
     $.ajax({
@@ -40,7 +44,7 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput 
         console.log(lat);
         
       
-        var uvIndex = "http://api.openweathermap.org/data/2.5/uvi?&lat=" + lat + "&lon=" + lng + "&appid=b74f70f75df1dd598f40a1fa0a327642";
+        var uvIndex = "http://api.openweathermap.org/data/2.5/uvi?&lat=" + lat + "&lon=" + lng + apiKey;
 
         // var futureUVindex = "http://api.openweathermap.org/data/2.5/uvi/forecast?&appid=b74f70f75df1dd598f40a1fa0a327642&lat=" + lat + "&lon=" + lng;
 
@@ -71,7 +75,7 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput 
 
        
 
-        var fiveDayForecast = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lng + "&appid=b74f70f75df1dd598f40a1fa0a327642";
+        var fiveDayForecast = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lng + apiKey;
 
         $.ajax({
             url: fiveDayForecast,
@@ -79,7 +83,8 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput 
 
         }).then(function(forecast) {
             console.log(forecast);
-           
+            var fiveDayForecast = forecast.list[0];
+           $("#weather-info").append("<div>" + fiveDayForecast + "</div)");
         })
         console.log(fiveDayForecast);
     
