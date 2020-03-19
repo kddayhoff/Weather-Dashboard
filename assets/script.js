@@ -1,8 +1,8 @@
 $(document).ready(function() {
 
 
-    $( "#user-input" ).keyup(function( event ) {
-        if ( event.which == 13 ) {
+    $("#user-input").keyup(function( event ) {
+        if ( event.keyCode === 13 ) {
          event.preventDefault();
         
 $("#searchBtn").on("click", function(event) {
