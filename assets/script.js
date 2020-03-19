@@ -1,18 +1,16 @@
 $(document).ready(function() {
 
-    // $( "#user-input" ).keydown(function( event ) {
-    //     if ( event.which == 13 ) {
-    //      event.preventDefault();
-    //     };
+
+    $( "#user-input" ).keyup(function( event ) {
+        if ( event.which == 13 ) {
+         event.preventDefault();
+        
 $("#searchBtn").on("click", function(event) {
     event.preventDefault;
 var userInput = $("#user-input").val();
 //Userinput field is NOT working at the moment
 var apiKey = "&appid=b74f70f75df1dd598f40a1fa0a327642";
 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput + apiKey;
-
-
-
 
     $.ajax({
         url: queryURL,
@@ -46,8 +44,7 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput 
       
         var uvIndex = "http://api.openweathermap.org/data/2.5/uvi?&lat=" + lat + "&lon=" + lng + apiKey;
 
-        // var futureUVindex = "http://api.openweathermap.org/data/2.5/uvi/forecast?&appid=b74f70f75df1dd598f40a1fa0a327642&lat=" + lat + "&lon=" + lng;
-
+    
         $.ajax({
             url: uvIndex,
             method: 'GET',
@@ -82,29 +79,37 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput 
             method: 'GET',
 
         }).then(function(forecast) {
-            console.log(forecast);
-            var fiveDayForecast = forecast.list[0];
-           $("#weather-info").append("<div>" + fiveDayForecast + "</div)");
+            // console.log(forecast);
+            
+            //console.log("temp: " + forecast.list[0].main.temp)
+            // console.log("temp min: " + forecast.list[0].main.temp_min)
+            // console.log("temp max: " + forecast.list[0].main.temp_max)
+           
+            for (var i = 0; i < forecast.list.length; i++) {
+                console.log(forecast.list[i].main.temp)
+                console.log(forecast.list[i].main.temp_min)
+                console.log(forecast.list[i].main.temp_max)
+                if (i === 5) {
+                    break;
+                } 
+            }
+
+        
+
+
+           $("#weather-info").append("<div>" + fiveDayForecast + "</div>)");
+
         })
-        console.log(fiveDayForecast);
+        //console.log(forecast);
     
         
 
-            // for (var i = 0; i < listItems.length; i++) {
-
-            //     var listItems = [name, date, temp, tempF, humidity, windSpeed, uvIndex];
-            
-
-            // $("li").each(function() {
-            //     $("#weather-info").append(listItems);
-            // })
-            
-           //$("#weather-info").append(listItems);
-            //$("#weather-info").append(listData);
 
         })
      });
   });
+}
+})
 })
 
  
