@@ -11,7 +11,7 @@ function displayCities () {
 
 }
 
-//This gets the cities store in local storage and keeps them displayed to the page
+//This gets the cities store in local storage and keeps them displayed to the page after refreshing
 if (localStorage.cities) {
     var cities = JSON.parse(localStorage.getItem("cities"));
     }
@@ -24,7 +24,7 @@ $(document).ready(function() {
 displayCities();
 console.log(cities);
 
-//This is will start search for city to display weather        
+//This is will start search for city to display weather based on a button click and input from a user        
 $("#searchBtn").on("click", function(event) {
     event.preventDefault;
 
@@ -42,6 +42,7 @@ $("#city-list").append(getUserInput);
 
 //clear user input here
 
+//This is where we call our first API to get weather info for a city of the user's choice
 var apiKey = "&appid=b74f70f75df1dd598f40a1fa0a327642";
 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput + apiKey;
 
@@ -70,6 +71,7 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput 
         var lat = response.coord.lat;
         console.log(lat);
         
+        //getting UVindex with different API using longitude and latitude from first API
         var uvIndex = "http://api.openweathermap.org/data/2.5/uvi?&lat=" + lat + "&lon=" + lng + apiKey;
 
         $.ajax({
@@ -82,19 +84,24 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput 
             
             var uvIndex = request.value;
      
-
+//puts current weather on to the page in list form
         $("#weather-info").append("<li>" + "City: " + name + "</li>");
+
         $("#weather-info").append("<li>" + "Current Date: " + date + "</li>");
+
         $("#weather-info").append("<li>" + "Temperature Fahrenheit: " + tempF + "</li>");
+
         $("#weather-info").append("<li>" + "Temperature Celsius: " + tempC + "</li>");
+
         $("#weather-info").append("<li>" + "Humidity: " + humidity + "</li>");
+
         $("#weather-info").append("<li>" + "Wind Speed: " + windSpeed + "</li>");
+
         $("#weather-info").append("<li>" + "UV Index " + uvIndex + "</li>");
 
-//Five day forecast here
+
+//Five day forecast starts here
  var fiveDayForecast = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lng + apiKey;
-
-
 
         $.ajax({
             url: fiveDayForecast,
@@ -112,15 +119,12 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput 
                     console.log(tempF);
                     var clouds = forecast.list[i].weather[0].icon;
                     console.log(clouds);
-                }
-
-                
+                }    
                }
              })
            })
          });
-       });
-      
+       });      
    })
 
  
