@@ -1,3 +1,4 @@
+//This stores the cities in local storage to the page
 function displayCities () {
     
    $("#cities").empty();
@@ -10,6 +11,7 @@ function displayCities () {
 
 }
 
+//This gets the cities store in local storage and keeps them displayed to the page
 if (localStorage.cities) {
     var cities = JSON.parse(localStorage.getItem("cities"));
     }
@@ -17,19 +19,12 @@ if (localStorage.cities) {
         var cities = []
     }
 
+
 $(document).ready(function() {
-
-
 displayCities();
 console.log(cities);
 
-    
-    
-//  $(document).on("keypress", function(x){                   if(x.which == 13) {
-//             input = $("#user-input").val();
-//         }
-//     })
-        
+//This is will start search for city to display weather        
 $("#searchBtn").on("click", function(event) {
     event.preventDefault;
 
@@ -38,15 +33,15 @@ cities.push(userInput);
 localStorage.setItem("cities", JSON.stringify(cities));
 console.log(cities)
 console.log(userInput);
+
 displayCities();
-        //call function for cities
+
+//call function for cities
 var getUserInput = localStorage.getItem("City:");
 $("#city-list").append(getUserInput);
 
 //clear user input here
 
-
-//Userinput field is NOT working at the moment
 var apiKey = "&appid=b74f70f75df1dd598f40a1fa0a327642";
 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput + apiKey;
 
@@ -61,10 +56,10 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput 
 
         var name = response.name;
 
-        var temp = (response.main.temp);
+        var tempC = Math.floor(response.main.temp - 273.15);
        
-        var tempF = (response.main.temp - 273.15) * 1.80 + 32; 
-
+        var tempF = Math.floor(response.main.temp * 1.8 - 459.67); 
+       
         var humidity = response.main.humidity
         
         var windSpeed = response.wind.speed;
@@ -83,28 +78,21 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput 
 
         }).then(function(request) {
             
-            var date = request.date_iso;
+            var date = moment().format("MMMM Do YYYY"); 
             
             var uvIndex = request.value;
      
 
         $("#weather-info").append("<li>" + "City: " + name + "</li>");
-        $("#weather-info").append("<li>" + "Current Date:" + date + "</li>");
+        $("#weather-info").append("<li>" + "Current Date: " + date + "</li>");
         $("#weather-info").append("<li>" + "Temperature Fahrenheit: " + tempF + "</li>");
-        $("#weather-info").append("<li>" + "Temperature Kelvin: " + temp + "</li>");
+        $("#weather-info").append("<li>" + "Temperature Celsius: " + tempC + "</li>");
         $("#weather-info").append("<li>" + "Humidity: " + humidity + "</li>");
         $("#weather-info").append("<li>" + "Wind Speed: " + windSpeed + "</li>");
         $("#weather-info").append("<li>" + "UV Index " + uvIndex + "</li>");
 
-        
-
-        var fiveDayForecast = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lng + apiKey;
-
-
-
-        
-//=============================================================
 //Five day forecast here
+ var fiveDayForecast = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lng + apiKey;
 
 
 
@@ -119,6 +107,11 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput 
             for (var i = 0; i < forecast.list.length; i++) {
                 if(forecast.list[i].dt_txt.indexOf("15:00:00")!== -1) {
                     console.log(forecast.list[i]);
+                   
+                    var tempF = Math.floor(forecast.list[i].main.temp * 1.8 - 459.67);  
+                    console.log(tempF);
+                    var clouds = forecast.list[i].weather[0].icon;
+                    console.log(clouds);
                 }
 
                 
