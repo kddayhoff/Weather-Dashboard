@@ -72,7 +72,7 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput 
         console.log(lat);
         
         //getting UVindex with different API using longitude and latitude from first API
-        var uvIndex = "http://api.openweathermap.org/data/2.5/uvi?&lat=" + lat + "&lon=" + lng + apiKey;
+        var uvIndex = "https://api.openweathermap.org/data/2.5/uvi?&lat=" + lat + "&lon=" + lng + apiKey;
 
         $.ajax({
             url: uvIndex,
